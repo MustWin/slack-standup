@@ -1,0 +1,5 @@
+node-bot/node_modules
+redis.conf
+.env
+*.out
+*.rdb
