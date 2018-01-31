@@ -25,7 +25,7 @@ const readAppSettings = function() {
   })
 }
 
-updateAppSettings(['FAKEID']).then(readAppSettings).then(db.close)
+updateAppSettings(['U02AUV29C', 'U02782BH0']).then(readAppSettings).then(db.close)
 
 
 /*
