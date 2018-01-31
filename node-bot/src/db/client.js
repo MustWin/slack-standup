@@ -1,11 +1,19 @@
 var Redis = require('ioredis');
+var { appSettings } = require('../models/appSettings')
 
 var state = {
-  db: null
+  db: null,
+  client: null
+};
+
+const factory = function(client) {
+  return {
+    appSettings: appSettings(client)
+  }
 };
 
 const connect = function() {
-  state.db = new Redis({
+  const db = new Redis({
     port: process.env.REDIS_PORT,          // Redis port, 6379
     host: process.env.REDIS_HOST,   // Redis host, 127.0.0.1
     family: 4,           // 4 (IPv4) or 6 (IPv6)
@@ -13,11 +21,20 @@ const connect = function() {
     db: 0
   })
 
-  return state.db
+  state = {
+    db, client: factory(db)
+  }
+
+  return state.client
 }
 
 const client = function() {
-  return state.db
+  return state.client
+}
+
+const close = function() {
+  if (!state.db) return
+  state.db.disconnect()
 }
 
 const toPromise = function (err, result) {
@@ -26,5 +43,5 @@ const toPromise = function (err, result) {
 }
 
 module.exports = {
-  client, connect, toPromise
+  client, close, connect, toPromise
 }
