@@ -5,12 +5,6 @@ var state = {
 };
 
 const connect = function() {
-  console.log(
-    'host:port/password' +
-    process.env.REDIS_HOST + ':' +
-    process.env.REDIS_PORT + '/' +
-    process.env.REDIS_PASS
-  )
   state.db = new Redis({
     port: process.env.REDIS_PORT,          // Redis port, 6379
     host: process.env.REDIS_HOST,   // Redis host, 127.0.0.1
